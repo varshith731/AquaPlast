@@ -1,5 +1,6 @@
 import streamlit as st
 from ultralytics import YOLO
+from PIL import Image
 import os
 
 MODELS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -25,6 +26,10 @@ def main():
         weights = TRAINED_MODELS[model_choice]
         conf = st.slider("Confidence threshold", 0.0, 1.0, 0.25)
         imgsz = st.selectbox("Image size (px)", [320, 480, 640, 800], index=2)
+
+    uploaded = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+    if uploaded is not None:
+        st.image(uploaded, caption="Input image")
 
 if __name__ == '__main__':
     main()
