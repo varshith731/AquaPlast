@@ -1,6 +1,7 @@
 import streamlit as st
 from ultralytics import YOLO
 from PIL import Image
+import tempfile
 import os
 
 MODELS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -30,6 +31,26 @@ def main():
     uploaded = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
     if uploaded is not None:
         st.image(uploaded, caption="Input image")
+
+    if st.button("Run detection"):
+        if uploaded is None:
+            st.warning("Please upload an image first.")
+            return
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(uploaded.name)[1]) as tmp:
+            tmp.write(uploaded.read())
+            tmp_path = tmp.name
+
+        try:
+            model = load_model(weights)
+            results = model.predict(source=tmp_path, conf=conf, imgsz=imgsz)
+            st.subheader("Result")
+            st.image(results[0].plot())
+        except Exception as e:
+            st.error(f"Inference error: {e}")
+        finally:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
 
 if __name__ == '__main__':
     main()
