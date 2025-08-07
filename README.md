@@ -223,4 +223,104 @@ results = model.predict(
 **Dataset:**
 - Source: plastics_filtered dataset
 - Train/Val/Test split: standard YOLO format
-- Classes
+- Classes: 3 (Masks, Bags, Bottles)
+
+**Training Configuration:**
+- Framework: YOLOv8
+- Epochs: 25
+- Image Size: 640×640
+- Batch Sizes:
+  - Nano: 32
+  - Medium: 16
+  - Large: 8
+- Data Augmentation: Flip, Rotate, Brightness adjustment
+- Balanced Dataset: 650 images per class after augmentation
+
+**Training Paths:**
+```
+/content/AI_Project/
+├── YOLOv8_Nano/yolov8-nano_plastics_balanced/weights/best.pt
+├── YOLOv8_Medium/yolov8-medium_plastics_balanced/weights/best.pt
+└── YOLOv8_Large/yolov8-large_plastics_balanced/weights/best.pt
+```
+
+---
+
+## 📊 Dataset
+
+### Classes
+
+| Class | Description | Examples |
+|-------|-------------|----------|
+| **Masks** | Face masks, protective masks | N95 masks, cloth masks, surgical masks |
+| **Bags** | Plastic bags | Shopping bags, garbage bags, carrier bags |
+| **Bottles** | Plastic bottles | Water bottles, beverage containers, soda bottles |
+
+### Dataset Statistics
+
+- **Total Images**: ~1,950 (650 per class after balancing)
+- **Original Classes**: Imbalanced
+- **After Augmentation**: Balanced (650 images each)
+- **Augmentation Methods**:
+  - Horizontal flip
+  - Random rotation (90°, 180°, 270°)
+  - Brightness adjustment (0.7x to 1.3x)
+- **Format**: YOLO format (images + labels)
+
+### Data Verification
+
+The training pipeline includes automatic verification:
+```
+✅ Images without labels: 0
+✅ Labels without images: 0
+✅ All pairs matched correctly
+```
+
+---
+
+## ⚙️ Configuration
+
+### Streamlit Configuration
+
+Modify inference parameters in the web interface:
+
+```python
+# Confidence Threshold
+- Range: 0.0 - 1.0
+- Default: 0.25
+- Higher = fewer detections, higher precision
+- Lower = more detections, higher recall
+
+# Image Size
+- Options: 320, 480, 640, 800 (pixels)
+- Default: 640
+- Larger = better accuracy, slower inference
+- Smaller = faster inference, lower accuracy
+```
+
+### Model Selection
+
+Three models available in sidebar dropdown:
+- **Nano (nano_best.pt)** - Fastest, good accuracy
+- **Medium (medium_best.pt)** - Balanced performance
+- **Large (large_best.pt)** - Highest accuracy
+
+---
+
+## 📈 Performance
+
+### Inference Speed (on CPU)
+
+| Model | Image Size | Time | FPS |
+|-------|-----------|------|-----|
+| Nano | 640×640 | ~200ms | 5 |
+| Medium | 640×640 | ~400ms | 2.5 |
+| Large | 640×640 | ~800ms | 1.2 |
+
+*Note: Actual performance depends on your hardware. GPU inference is significantly faster.*
+
+### Accuracy Metrics
+
+- **Nano**: Good performance on small-medium objects
+- **Medium**: Better small object detection, balanced
+- **Large**: Highest a
