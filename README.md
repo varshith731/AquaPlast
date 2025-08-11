@@ -323,4 +323,115 @@ Three models available in sidebar dropdown:
 
 - **Nano**: Good performance on small-medium objects
 - **Medium**: Better small object detection, balanced
-- **Large**: Highest a
+- **Large**: Highest accuracy on all scales
+
+### Detection Examples
+
+**Input**: Image with mixed plastic waste  
+**Output**:
+```
+Masks: 106 detected
+Bags: 74 detected
+Bottles: 120 detected
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Issue: "Module not found" errors
+
+**Solution:**
+```bash
+# Verify virtual environment is activated
+.venv\Scripts\Activate.ps1
+
+# Reinstall dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### Issue: Streamlit app won't start
+
+**Solution:**
+```bash
+# Try with verbose output
+streamlit run app.py --logger.level=debug
+
+# Clear Streamlit cache
+streamlit cache clear
+```
+
+### Issue: Slow inference on CPU
+
+**Solution:**
+- Use **Nano model** for faster inference
+- Reduce **image size** (try 480px or 320px)
+- Increase **confidence threshold** to filter low-confidence detections
+- (Optional) Install GPU support (CUDA for Nvidia, ROCm for AMD)
+
+### Issue: GPU not detected
+
+**Solution:**
+```python
+# Check if GPU is available
+from ultralytics import YOLO
+
+model = YOLO('nano_best.pt')
+model.to('cuda')  # Force CUDA
+```
+
+### Issue: Out of memory errors
+
+**Solution:**
+- Use **Nano model**
+- Reduce image size
+- Process fewer images at once
+- Reduce batch size (in training scripts)
+
+### Issue: Inaccurate detections
+
+**Solution:**
+- Try **Medium or Large model** for better accuracy
+- Ensure good lighting in images
+- Increase **image resolution** (use 640px or 800px)
+- Reduce **confidence threshold** if missing objects
+
+---
+
+## 🎓 Applications 
+
+- Waste management and recycling automation
+- Environmental monitoring (beaches, oceans, landfills)
+- Smart city infrastructure
+- Manufacturing quality control
+- Educational purposes
+
+
+---
+
+
+### Development Setup
+
+```bash
+# Clone repo
+git clone <repository-url>
+cd AI_PROJECT
+
+# Create virtual environment
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+
+# Install dev dependencies
+pip install -r requirements.txt
+pip install pytest black flake8  # Development tools
+
+# Run tests
+pytest tests/
+```
+
+---
+
+
+## 🎉 Quick Reference
+
