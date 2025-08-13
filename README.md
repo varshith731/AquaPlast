@@ -435,3 +435,47 @@ pytest tests/
 
 ## 🎉 Quick Reference
 
+### Start the app
+```bash
+streamlit run app.py
+```
+
+### Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Run inference from Python
+```python
+from ultralytics import YOLO
+model = YOLO('nano_best.pt')
+results = model.predict('image.jpg')
+```
+
+### View performance metrics
+- Check terminal output during inference
+- Models show: **Speed** (preprocess, inference, postprocess), **Total FPS**
+
+---
+
+## 📚 Project Info
+
+**Version**: 1.0  
+**Created**: November 2024  
+**Framework**: YOLOv8 (Ultralytics)  
+**Interface**: Streamlit  
+**Python Version**: 3.8+  
+**Status**: ✅ Production Ready
+
+---
+
+## 🚀 Next Steps
+
+1. ✅ Run the Streamlit app: `streamlit run app.py`
+2. ✅ Upload a plastic image and test detection
+3. ✅ Try different models (Nano, Medium, Large)
+4. ✅ Experiment with confidence thresholds
+
+---
+
+**Happy Detecting! 🎯🗑️♻️**
